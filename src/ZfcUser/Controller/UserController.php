@@ -12,16 +12,15 @@ use ZfcUser\Options\UserControllerOptionsInterface;
 
 class UserController extends AbstractActionController
 {
+    const CONTROLLER_NAME    = 'zfcuser';
+    
     protected $routes = array(
         'change-email' => 'zfcuser/changeemail',
         'change-password' => 'zfcuser/changepassword',
         'login' => 'zfcuser/login',
-        'register' => 'zfcuser/register',
     );
 
     protected $registerRouteParams = array();
-
-    const CONTROLLER_NAME    = 'zfcuser';
 
     /**
      * @var UserService
