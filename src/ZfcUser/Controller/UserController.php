@@ -19,6 +19,8 @@ class UserController extends AbstractActionController
         'register' => 'zfcuser/register',
     );
 
+    protected $registerRouteParams = array();
+
     const CONTROLLER_NAME    = 'zfcuser';
 
     /**
@@ -186,7 +188,7 @@ class UserController extends AbstractActionController
             $redirect = false;
         }
 
-        $redirectUrl = $this->url()->fromRoute($this->getRegisterRoute())
+        $redirectUrl = $this->url()->fromRoute($this->getRegisterRoute(), $this->getRegisterRouteParams())
             . ($redirect ? '?redirect=' . rawurlencode($redirect) : '');
         $prg = $this->prg($redirectUrl, true);
 
@@ -483,5 +485,15 @@ class UserController extends AbstractActionController
     public function setRegisterRoute($route)
     {
         $this->routes['register'] = $route;
+    }
+
+    public function getRegisterRouteParams()
+    {
+        return $this->registerRouteParams;
+    }
+
+    public function setRegisterRouteParams(array $params)
+    {
+        $this->registerRouteParams = $params;
     }
 }
