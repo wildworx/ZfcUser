@@ -1,22 +1,16 @@
 {
-    "name": "zf-commons/zfc-user",
-    "description": "A generic user registration and authentication module for ZF2. Supports Zend\\Db and Doctrine2.",
+    "name": "wildworx/zfc-user",
+    "description": "A custom implementation of the generic user registration and authentication module for ZF2 by Evan Coury and the ZF-Commons team.",
     "type": "library",
     "license": "BSD-3-Clause",
     "keywords": [
         "zf2"
     ],
-    "homepage": "https://github.com/ZF-Commons/ZfcUser",
+    "homepage": "https://github.com/wildworx/zfc-user",
     "authors": [
         {
-            "name": "Evan Coury",
-            "email": "me@evancoury.com",
-            "homepage": "http://blog.evan.pro/"
-        },
-        {
-            "name": "Kyle Spraggs",
-            "email": "theman@spiffyjr.me",
-            "homepage": "http://www.spiffyjr.me/"
+            "name": "Andy Wild",
+            "email": "thewildandy@gmail.com",
         }
     ],
     "extra": {
