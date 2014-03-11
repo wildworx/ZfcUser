@@ -12,10 +12,12 @@ use ZfcUser\Options\UserControllerOptionsInterface;
 
 class UserController extends AbstractActionController
 {
-    const ROUTE_CHANGEPASSWD = 'zfcuser/changepassword';
-    const ROUTE_LOGIN        = 'zfcuser/login';
-    const ROUTE_REGISTER     = 'zfcuser/register';
-    const ROUTE_CHANGEEMAIL  = 'zfcuser/changeemail';
+    protected $routes = array(
+        'change-email' => 'zfcuser/changeemail',
+        'change-password' => 'zfcuser/changepassword',
+        'login' => 'zfcuser/login',
+        'register' => 'zfcuser/register',
+    );
 
     const CONTROLLER_NAME    = 'zfcuser';
 
@@ -61,7 +63,7 @@ class UserController extends AbstractActionController
     public function indexAction()
     {
         if (!$this->zfcUserAuthentication()->hasIdentity()) {
-            return $this->redirect()->toRoute(static::ROUTE_LOGIN);
+            return $this->redirect()->toRoute($this->getLoginRoute());
         }
         return new ViewModel();
     }
@@ -96,7 +98,7 @@ class UserController extends AbstractActionController
 
         if (!$form->isValid()) {
             $this->flashMessenger()->setNamespace('zfcuser-login-form')->addMessage($this->failedLoginMessage);
-            return $this->redirect()->toUrl($this->url()->fromRoute(static::ROUTE_LOGIN).($redirect ? '?redirect='. rawurlencode($redirect) : ''));
+            return $this->redirect()->toUrl($this->url()->fromRoute($this->getLoginRoute()).($redirect ? '?redirect='. rawurlencode($redirect) : ''));
         }
 
         // clear adapters
@@ -148,7 +150,7 @@ class UserController extends AbstractActionController
         if (!$auth->isValid()) {
             $this->flashMessenger()->setNamespace('zfcuser-login-form')->addMessage($this->failedLoginMessage);
             $adapter->resetAdapters();
-            return $this->redirect()->toUrl($this->url()->fromRoute(static::ROUTE_LOGIN)
+            return $this->redirect()->toUrl($this->url()->fromRoute($this->getLoginRoute())
                 . ($redirect ? '?redirect='. rawurlencode($redirect) : ''));
         }
 
@@ -184,7 +186,7 @@ class UserController extends AbstractActionController
             $redirect = false;
         }
 
-        $redirectUrl = $this->url()->fromRoute(static::ROUTE_REGISTER)
+        $redirectUrl = $this->url()->fromRoute($this->getRegisterRoute())
             . ($redirect ? '?redirect=' . rawurlencode($redirect) : '');
         $prg = $this->prg($redirectUrl, true);
 
@@ -224,7 +226,7 @@ class UserController extends AbstractActionController
         }
 
         // TODO: Add the redirect parameter here...
-        return $this->redirect()->toUrl($this->url()->fromRoute(static::ROUTE_LOGIN) . ($redirect ? '?redirect='. rawurlencode($redirect) : ''));
+        return $this->redirect()->toUrl($this->url()->fromRoute($this->getLoginRoute()) . ($redirect ? '?redirect='. rawurlencode($redirect) : ''));
     }
 
     /**
@@ -239,7 +241,7 @@ class UserController extends AbstractActionController
         }
 
         $form = $this->getChangePasswordForm();
-        $prg = $this->prg(static::ROUTE_CHANGEPASSWD);
+        $prg = $this->prg($this->getChangePasswordRoute());
 
         $fm = $this->flashMessenger()->setNamespace('change-password')->getMessages();
         if (isset($fm[0])) {
@@ -274,7 +276,7 @@ class UserController extends AbstractActionController
         }
 
         $this->flashMessenger()->setNamespace('change-password')->addMessage(true);
-        return $this->redirect()->toRoute(static::ROUTE_CHANGEPASSWD);
+        return $this->redirect()->toRoute($this->getChangePasswordRoute());
     }
 
     public function changeEmailAction()
@@ -296,7 +298,7 @@ class UserController extends AbstractActionController
             $status = null;
         }
 
-        $prg = $this->prg(static::ROUTE_CHANGEEMAIL);
+        $prg = $this->prg($this->getChangeEmailRoute());
         if ($prg instanceof Response) {
             return $prg;
         } elseif ($prg === false) {
@@ -326,7 +328,7 @@ class UserController extends AbstractActionController
         }
 
         $this->flashMessenger()->setNamespace('change-email')->addMessage(true);
-        return $this->redirect()->toRoute(static::ROUTE_CHANGEEMAIL);
+        return $this->redirect()->toRoute($this->getChangeEmailRoute());
     }
 
     /**
@@ -441,5 +443,45 @@ class UserController extends AbstractActionController
     {
         $this->changeEmailForm = $changeEmailForm;
         return $this;
+    }
+
+    public function getChangeEmailRoute()
+    {
+        return $this->routes['change-email'];
+    }
+
+    public function setChangeEmailRoute($route)
+    {
+        $this->routes['change-email'] = $route;
+    }
+
+    public function getChangePasswordRoute()
+    {
+        return $this->routes['change-password'];
+    }
+
+    public function setChangePasswordRoute($route)
+    {
+        $this->routes['change-password'] = $route;
+    }
+
+    public function getLoginRoute()
+    {
+        return $this->routes['login'];
+    }
+
+    public function setLoginRoute($route)
+    {
+        $this->routes['login'] = $route;
+    }
+
+    public function getRegisterRoute()
+    {
+        return $this->routes['register'];
+    }
+
+    public function setRegisterRoute($route)
+    {
+        $this->routes['register'] = $route;
     }
 }
