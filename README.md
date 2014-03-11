@@ -7,3 +7,4 @@ For the full README see the [original module](https://github.com/ZF-Commons/ZfcU
 Customisations
 --------------
 - Refactored the user controller to use properties instead of constants for route definitions.
+- Added support to the user controller for passing parameters to build the registration route with.
