@@ -18,6 +18,7 @@ class UserController extends AbstractActionController
         'change-email' => 'zfcuser/changeemail',
         'change-password' => 'zfcuser/changepassword',
         'login' => 'zfcuser/login',
+        'register' => 'zfcuser/register',
     );
 
     protected $registerRouteParams = array();
