@@ -8,3 +8,4 @@ Customisations
 --------------
 - Refactored the user controller to use properties instead of constants for route definitions.
 - Added support to the user controller for passing parameters to build the registration route with.
+- Only clear the relevant session container on logout, rather than destroying the entire session.
